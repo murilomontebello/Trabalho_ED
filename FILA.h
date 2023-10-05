@@ -155,8 +155,41 @@ void ModificaTarefa(Fila* f,int codigo,int nVal,char *nome,char *proj, data Data
         }
         atual = atual->prox;
     }
-
-
+}
+/*
+No* inicializa(){
+    No* f = (No*) malloc(sizeof(No));
+    f->prox = NULL;
+    return f;
 }
 
+int verificaVaziaLista(No* lista){
+    if(lista!=NULL){
+        return 0;
+    }else{
+        return 1;
+    }
+}
+
+No* ConcluiTarefa(No* lista,Fila* f,int codigo){
+    No* novoNo = (No*)malloc(sizeof(No));
+    novoNo = RetiraFila(f);
+    novoNo->prox = NULL;
+    if(lista == NULL){
+        novoNo->prox = lista;
+        return novoNo;
+    }
+
+    No* aux = lista;
+
+    while(aux->prox !=NULL && aux->fim->dia + aux->fim->ano + aux->fim->mes  <= novoNo->fim->dia + novoNo->fim->ano + novoNo->fim->mes){
+        aux = aux->prox;
+    }
+
+    novoNo->prox = aux->prox;
+    aux->prox = novoNo;
+
+    return aux;
+}
+*/
 #endif // FILA_H_INCLUDED
