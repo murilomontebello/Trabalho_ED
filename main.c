@@ -119,6 +119,8 @@ do{
 
                 lista = ConcluiTarefa(lista,tarefa);
 
+                printf("\nTarefa concluida!!!");
+
                 break;
 
             case 4:

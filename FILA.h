@@ -41,6 +41,30 @@ typedef struct fila
     No * fim;
 } Fila;
 
+void imprimeData (data f){
+
+    printf("%d/%d/%d",f.dia,f.mes,f.ano);
+}
+
+void imprimeFila (Fila* f)
+{
+    No* q;
+    printf("\n\t\t");
+    for (q=f->ini; q!=NULL; q=q->prox)
+    {
+        printf("\ncodigo:%d",q->codigo);
+        printf("\nNome da tarefa:%s - ",q->nome);
+        printf("\nNome do projeto:%s - ",q->proj);
+        printf("\ninicio:");
+        imprimeData(q->inicio);
+        printf("\nfim:");
+        imprimeData(q->Dfim);
+        printf("\nStatus:%d - ",q->status);
+
+    }
+    printf("\n");
+}
+
 int VaziaFila (Fila* f)
 {
     if (f->ini==NULL) return 1;
@@ -78,54 +102,21 @@ void InsereFila (Fila* f, int a,char *b,char *c, data d, data e)
     f->ini = f->fim;
 }
 
-No* retira_ini (No* ini)
-{
-    No* p = ini->prox;
-    free(ini);
-    return p;
-}
-
 No* RetiraFila (Fila* f)
 {
     No* v;
+
     if (VaziaFila(f))
     {
         printf("Fila vazia.\n");
         exit(0); /* aborta programa */
     }
+
     v = f->ini;
-    f->ini = retira_ini(f->ini);
-    if (f->ini == NULL) /* fila ficou vazia? */
-    f->fim = NULL;
+    f->ini = f->ini->prox;
+
     return v;
 }
-
-void imprimeData (data f){
-
-    printf("%d/%d/%d",f.dia,f.mes,f.ano);
-}
-
-
-
-void imprimeFila (Fila* f)
-{
-    No* q;
-    printf("\n\t\t");
-    for (q=f->ini; q!=NULL; q=q->prox)
-    {
-        printf("\ncodigo:%d",q->codigo);
-        printf("\nNome da tarefa:%s - ",q->nome);
-        printf("\nNome do projeto:%s - ",q->proj);
-        printf("\ninicio:");
-        imprimeData(q->inicio);
-        printf("\nfim:");
-        imprimeData(q->Dfim);
-        printf("\nStatus:%d - ",q->status);
-
-    }
-    printf("\n");
-}
-
 
 Fila* liberaFila (Fila* f)
 {
@@ -196,23 +187,36 @@ int verificaVaziaLista(No* lista){
     }
 }
 
+/*int comparaData (data d1,data d2)
+{
+    if (d1.ano < d2.ano)
+       return -1;
+
+    else if (d1.ano > d2.ano)
+       return 1;
+
+    if (d1.ano == d2.ano)
+    {
+         if (d1.mes<d2.mes)
+              return -1;
+         else if (d1.mes>d2.mes)
+              return 1;
+         else if (d1.dia<d2.dia)
+              return -1;
+         else if(d1.dia>d2.dia)
+              return 1;
+         else
+              return 0;
+    }
+}*/
+
 No* ConcluiTarefa(No* lista,Fila* f){
 
     No* novoNo = (No*)malloc(sizeof(No));
     novoNo = RetiraFila(f);
-
     novoNo->prox = NULL;
-    printf("\ncodigo:%d",novoNo->codigo);
-    printf("\nNome da tarefa:%s - ",novoNo->nome);
-            printf("\nNome do projeto:%s - ",novoNo->proj);
-            printf("\ninicio:");
-            imprimeData(novoNo->inicio);
-            printf("\nfim:");
-            imprimeData(novoNo->Dfim);
-            printf("\nStatus:%d - ",novoNo->status);
 
     if(lista == NULL){
-
         return novoNo;
     }
 
@@ -233,21 +237,11 @@ No* ConcluiTarefa(No* lista,Fila* f){
         aux2 = aux;
         aux = aux->prox;
     }
-
+    system("pause");
     novoNo->prox = aux;
+    system("pause");
     aux2->prox = novoNo;
-
-    imprime(lista);
-
-    printf("\nnovoNo");
-
-    imprime(novoNo);
-    printf("\nAux");
-    imprime(aux);
-    printf("\nAux2");
-    imprime(aux2);
-
-
+    system("pause");
     return lista;
 }
 
