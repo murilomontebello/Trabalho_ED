@@ -49,19 +49,23 @@ void imprimeData (data f){
 void imprimeFila (Fila* f)
 {
     No* q;
-    printf("\n\t\t");
-    for (q=f->ini; q!=NULL; q=q->prox)
-    {
-        printf("\ncodigo:%d",q->codigo);
-        printf("\nNome da tarefa:%s - ",q->nome);
-        printf("\nNome do projeto:%s - ",q->proj);
-        printf("\ninicio:");
-        imprimeData(q->inicio);
-        printf("\nfim:");
-        imprimeData(q->Dfim);
-        printf("\nStatus:%d - ",q->status);
+    printf("\n");
+    if(f->fim == NULL && f->ini == NULL){
+        printf("Fila Vazia");
+    }else{
+        for (q=f->ini; q!=NULL; q=q->prox){
+            printf("\ncodigo:%d",q->codigo);
+            printf("\nNome da tarefa:%s - ",q->nome);
+            printf("\nNome do projeto:%s - ",q->proj);
+            printf("\ninicio:");
+            imprimeData(q->inicio);
+            printf("\nfim:");
+            imprimeData(q->Dfim);
+            printf("\nStatus:%d - ",q->status);
 
+        }
     }
+    
     printf("\n");
 }
 
@@ -151,14 +155,13 @@ void ModificaTarefa(Fila* f,int codigo,int nVal,char *nome,char *proj, data Data
 void imprime(No *aux){
 
     No *q = aux;
-    printf("\n\t\t");
+    printf("\n");
 
     if(q!=NULL){
 
-        printf("\n\tLista: ");
+        printf("\nLista: ");
 
-        for(;q != NULL; q = q->prox){
-
+        while (q != NULL) {
             printf("\ncodigo:%d",q->codigo);
             printf("\nNome da tarefa:%s - ",q->nome);
             printf("\nNome do projeto:%s - ",q->proj);
@@ -167,9 +170,10 @@ void imprime(No *aux){
             printf("\nfim:");
             imprimeData(q->Dfim);
             printf("\nStatus:%d - ",q->status);
+            q = q->prox;
         }
     }else{
-        printf("\nLista Vazia !!!\n");
+        printf("Lista Vazia !!!\n");
     }
 }
 
@@ -237,12 +241,36 @@ No* ConcluiTarefa(No* lista,Fila* f){
         aux2 = aux;
         aux = aux->prox;
     }
-    system("pause");
+
     novoNo->prox = aux;
-    system("pause");
     aux2->prox = novoNo;
-    system("pause");
+
     return lista;
+}
+
+No* atualizaEstatus(Fila* f,No* lista){
+    No* atual = (No*)malloc(sizeof(No));
+    atual = RetiraFila(f);
+    atual->status = -1;
+    atual->prox = NULL;
+
+    if(lista == NULL){
+
+        return atual;
+            
+    }else{
+
+        No *aux = lista;
+
+        while(aux->prox != NULL){
+
+            aux = aux->prox;
+
+        }
+
+        aux->prox = atual;
+        return lista;
+    }
 }
 
 #endif // FILA_H_INCLUDED

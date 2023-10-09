@@ -1,0 +1,3 @@
+Problemas que estão acontecendo no projeto:
+    1- Não é possivel usar mais de uma vez o concluir tarefa (Opção 3)
+    2- As vezes após usar uma segunda vez o atualizaTarefa (Opção 4) e usar o imprimePendentes (Opção 5) a impressão sai em loop infinito

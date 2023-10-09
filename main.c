@@ -10,13 +10,15 @@ setlocale(LC_ALL, "Portuguese");
 int menu;
 int codigo,novoCodigo;
 char nome[30],proj[30];
-No *lista;
+No *listaConcluidas;
+No *listaPendente;
 Fila *tarefa;
 data dataIni;
 data dataFim;
 
 tarefa = CriaFila();
-lista = NULL;
+listaConcluidas = NULL;
+listaPendente = NULL;
 
 do{
     printf("Digite o n�mero referente a funcionalidade desejada:\n");
@@ -37,7 +39,7 @@ do{
                 /*Adiciona uma tarefa a fila de tarefas*/
 
 
-                printf("\nOp��o 1 escohida\n");
+                printf("\nOpção 1 escohida\n");
 
                 printf("Qual o codigo: ");
                 scanf("%d",&codigo);
@@ -69,10 +71,11 @@ do{
                 scanf("%d",&dataFim.ano);
 
                 InsereFila(tarefa,codigo,nome,proj,dataIni,dataFim);
+
                 break;
 
             case 2:
-                printf("\nOp��o 2 escohida\n");
+                printf("\nOpção 2 escohida\n");
 
                 printf("Qual o codigo para ser modificado: ");
                 scanf("%d",&codigo);
@@ -106,10 +109,7 @@ do{
                 printf("Qual o novo ano de fim da tarefa: ");
                 scanf("%d",&dataFim.ano);
 
-
-
                 ModificaTarefa(tarefa,codigo,novoCodigo,nome,proj,dataIni,dataFim);
-
 
                 break;
 
@@ -117,40 +117,52 @@ do{
 
                 printf("\nOpção 3 escohida\n");
 
-                lista = ConcluiTarefa(lista,tarefa);
+                listaConcluidas = ConcluiTarefa(listaConcluidas,tarefa);
 
                 printf("\nTarefa concluida!!!");
 
                 break;
 
             case 4:
-                printf("\nOp��o 4 escohida\n");
+                printf("\nOpção 4 escohida\n");
+
+                listaPendente = atualizaEstatus(tarefa,listaPendente);
+
+                printf("\nAgora a tarefa está pendente");
                 break;
 
 
             case 5:
-                printf("\nOp��o 5 escohida\n");
+                printf("\nOpção 5 escohida\n");
 
-
-                printf("\n Fila: ");
-
-                imprimeFila(tarefa);
-
-                imprime(lista);
+                imprime(listaPendente);
 
                 break;
 
             case 6:
-                printf("\nOp��o 6 escohida\n");
+                printf("\nOpção 6 escohida\n");
+
+                imprime(listaConcluidas);
                 break;
 
             case 7:
-                printf("\nOp��o 7 escohida\n");
+                printf("\nOpção 7 escohida\n");
                 break;
 
             case 8:
-                printf("\nOp��o 8 escohida\n");
+                printf("\nOpção 8 escohida\n");
+
                 return 0;
+                break;
+            case 9:
+                printf("\nFila de tarefas: ");
+                imprimeFila(tarefa);
+
+                printf("\nLista de tarefas concluidas:");
+                imprime(listaConcluidas);
+
+                printf("\nLista de tarefas pendentes:");
+                imprime(listaPendente);
                 break;
 
             default:
