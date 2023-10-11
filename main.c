@@ -21,14 +21,14 @@ listaConcluidas = NULL;
 listaPendente = NULL;
 
 do{
-    printf("Digite o nï¿½mero referente a funcionalidade desejada:\n");
+    printf("Digite o nmero referente a funcionalidade desejada:\n");
     printf("1 - Adicionar Tarefa\n");
     printf("2 - Modificar Tarefa\n");
     printf("3 - Concluir Tarefa\n");
-    printf("4 - Atualizaï¿½ï¿½o do Status\n");
+    printf("4 - Atualizao do Status\n");
     printf("5 - Tarefas Pendentes\n");
     printf("6 - Tarefas Concluidas\n");
-    printf("7 - Tarefas Concluï¿½das com e sem Atrasos\n");
+    printf("7 - Tarefas Concludas com e sem Atrasos\n");
     printf("8 - Sair do Programa\n");
     scanf("%d",&menu);
 
@@ -39,7 +39,7 @@ do{
                 /*Adiciona uma tarefa a fila de tarefas*/
 
 
-                printf("\nOpÃ§Ã£o 1 escohida\n");
+                printf("\nOpção 1 escohida\n");
 
                 printf("Qual o codigo: ");
                 scanf("%d",&codigo);
@@ -71,11 +71,14 @@ do{
                 scanf("%d",&dataFim.ano);
 
                 InsereFila(tarefa,codigo,nome,proj,dataIni,dataFim);
+                imprimeFila(tarefa);
+
+                //system("cls");
 
                 break;
 
             case 2:
-                printf("\nOpÃ§Ã£o 2 escohida\n");
+                printf("\nOpção 2 escohida\n");
 
                 printf("Qual o codigo para ser modificado: ");
                 scanf("%d",&codigo);
@@ -110,47 +113,59 @@ do{
                 scanf("%d",&dataFim.ano);
 
                 ModificaTarefa(tarefa,codigo,novoCodigo,nome,proj,dataIni,dataFim);
+                system("cls");
 
                 break;
 
             case 3:
 
-                printf("\nOpÃ§Ã£o 3 escohida\n");
+                printf("\nOpção 3 escohida\n");
 
                 listaConcluidas = ConcluiTarefa(listaConcluidas,tarefa);
+                imprime(listaConcluidas);
+                imprimeFila(tarefa);
 
                 printf("\nTarefa concluida!!!");
+                //system("cls");
 
                 break;
 
             case 4:
-                printf("\nOpÃ§Ã£o 4 escohida\n");
+                printf("\nOpção 4 escohida\n");
 
                 listaPendente = atualizaEstatus(tarefa,listaPendente);
+                printf("\n\nLISTA PENDENTE\n");
+                imprime(listaPendente);
+                printf("\nFILA\n");
+                imprimeFila(tarefa);
 
-                printf("\nAgora a tarefa estÃ¡ pendente");
+                printf("\nAgora a tarefa está pendente");
+                //system("cls");
                 break;
 
 
             case 5:
-                printf("\nOpÃ§Ã£o 5 escohida\n");
+                printf("\nOpção 5 escohida\n");
 
+                printf("\n\nLISTA PENDENTE\n");
                 imprime(listaPendente);
+                printf("\nFILA\n");
+                imprimeFila(tarefa);
 
                 break;
 
             case 6:
-                printf("\nOpÃ§Ã£o 6 escohida\n");
+                printf("\nOpção 6 escohida\n");
 
                 imprime(listaConcluidas);
                 break;
 
             case 7:
-                printf("\nOpÃ§Ã£o 7 escohida\n");
+                printf("\nOpção 7 escohida\n");
                 break;
 
             case 8:
-                printf("\nOpÃ§Ã£o 8 escohida\n");
+                printf("\nOpção 8 escohida\n");
 
                 return 0;
                 break;
