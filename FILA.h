@@ -1,16 +1,17 @@
 #ifndef FILA_H_INCLUDED
 #define FILA_H_INCLUDED
 #include <string.h>
+#include <time.h>
 
-/* FUNÇÕES DE MANIPULAÇÃO DE PFILA
+/* FUNï¿½ï¿½ES DE MANIPULAï¿½ï¿½O DE PFILA
 
 Fila* CriaFila()  CRIA A FILA
 
-int VaziaFila (Fila* f) VERIFICA SE A FILA ESTÁ VAIZA
+int VaziaFila (Fila* f) VERIFICA SE A FILA ESTï¿½ VAIZA
 
-void InsereFila (Fila* f, int v) INSERÇÃO
+void InsereFila (Fila* f, int v) INSERï¿½ï¿½O
 
-int RetiraFila (Fila* f) REMOÇÃO
+int RetiraFila (Fila* f) REMOï¿½ï¿½O
 
 Fila* liberaFila (Fila* f) LIBERA A FILA
 
@@ -30,7 +31,7 @@ typedef struct nos
     char nome[30];
     char proj[30];
     data inicio;
-    data fim;
+    data Dfim;
     int status;
     struct nos *prox;
 }No;
@@ -40,6 +41,34 @@ typedef struct fila
     No * ini;
     No * fim;
 } Fila;
+
+void imprimeData (data f){
+
+    printf("%d/%d/%d",f.dia,f.mes,f.ano);
+}
+
+void imprimeFila (Fila* f)
+{
+    No* q;
+    printf("\n");
+    if(f->fim == NULL && f->ini == NULL){
+        printf("Fila Vazia");
+    }else{
+        for (q=f->ini; q!=NULL; q=q->prox){
+            printf("\n\n\tCodigo:%d",q->codigo);
+            printf("\n\tNome da tarefa:%s",q->nome);
+            printf("\n\tNome do projeto:%s",q->proj);
+            printf("\n\tInicio:");
+            imprimeData(q->inicio);
+            printf("\n\tFim:");
+            imprimeData(q->Dfim);
+            printf("\n\tStatus:%d\n",q->status);
+
+        }
+    }
+
+    printf("\n");
+}
 
 int VaziaFila (Fila* f)
 {
@@ -63,10 +92,10 @@ No* ins_fim (No* fim, int A,char b[],char c[], data d, data e)
     strcpy(p->nome,b);
     strcpy(p->proj,c);
     p->inicio = d;
-    p->fim = e;
+    p->Dfim = e;
     p->status = 0;
     p->prox = NULL;
-    if (fim != NULL) /* verifica se lista não estava vazia */
+    if (fim != NULL) /* verifica se lista nï¿½o estava vazia */
     fim->prox = p;
     return p;
 }
@@ -78,55 +107,27 @@ void InsereFila (Fila* f, int a,char *b,char *c, data d, data e)
     f->ini = f->fim;
 }
 
-No* retira_ini (No* ini)
-{
-    No* p = ini->prox;
-    free(ini);
-    return p;
-}
 
-No* RetiraFila (Fila* f)
+No* RetiraFila(Fila *f)
 {
-    No* v;
+    No *V=NULL;
     if (VaziaFila(f))
     {
-        printf("Fila vazia.\n");
-        exit(0); /* aborta programa */
+        printf("\n\nFila vazia.\n");
     }
-    v = f->ini;
-    f->ini = retira_ini(f->ini);
-    if (f->ini == NULL) /* fila ficou vazia? */
-    f->fim = NULL;
-    return v;
-}
-
-void imprimeData (data f){
-
-    printf("%d/%d/%d",f.dia,f.mes,f.ano);
-}
-
-
-
-void imprimeFila (Fila* f)
-{
-    No* q;
-    printf("\n\t\t");
-    for (q=f->ini; q!=NULL; q=q->prox)
+    else
     {
-        printf("\ncodigo:%d",q->codigo);
-        printf("\nNome da tarefa:%s - ",q->nome);
-        printf("\nNome do projeto:%s - ",q->proj);
-        printf("\ninicio:");
-        imprimeData(q->inicio);
-        printf("\nfim:");
-        imprimeData(q->fim);
-        printf("\nStatus:%d - ",q->status);
+        V = f->ini;
+        f->ini= f->ini->prox;
+        if(f->ini==NULL)
+        {
+            f->fim=NULL;
+        }
 
+        V->prox=NULL;
     }
-    printf("\n");
+     return V;
 }
-
-
 Fila* liberaFila (Fila* f)
 {
     No* q = f->ini;
@@ -150,13 +151,166 @@ void ModificaTarefa(Fila* f,int codigo,int nVal,char *nome,char *proj, data Data
             strcpy(atual->nome,nome);
             strcpy(atual->proj,proj);
             atual->inicio = DataIni;
-            atual->fim = DataFim;
+            atual->Dfim = DataFim;
             return;
         }
         atual = atual->prox;
     }
+}
+
+void imprime(No *aux){
+
+    No *q = aux;
+
+    if(q!=NULL){
+
+        while (q != NULL) {
+            printf("\n\n\tCodigo:%d",q->codigo);
+            printf("\n\tNome da tarefa:%s",q->nome);
+            printf("\n\tNome do projeto:%s",q->proj);
+            printf("\n\tInicio:");
+            imprimeData(q->inicio);
+            printf("\n\tFim:");
+            imprimeData(q->Dfim);
+            printf("\n\tStatus:%d\n\n",q->status);
+            q = q->prox;
+        }
+    }else{
+        printf("\nLista Vazia !!!\n");
+    }
+}
+
+No* inicializa(){
+    No* f = (No*) malloc(sizeof(No));
+    f->prox = NULL;
+    return f;
+}
+
+int verificaVaziaLista(No* lista){
+    if(lista!=NULL){
+        return 0;
+    }else{
+        return 1;
+    }
+}
+
+No* ConcluiTarefa(No* lista,Fila* f){
+
+    No* novoNo = (No*)malloc(sizeof(No));
+    novoNo = RetiraFila(f);
+    novoNo->prox = NULL;
+
+    if(lista == NULL){
+        return novoNo;
+    }
+
+    No *aux = lista;
+    No *aux2 = NULL;
+
+    while((aux !=NULL) && (aux->Dfim.ano > novoNo->Dfim.ano)){
+        aux2 = aux;
+        aux = aux->prox;
+    }
+
+    while((aux !=NULL) && (aux->Dfim.mes > novoNo->Dfim.mes)){
+        aux2 = aux;
+        aux = aux->prox;
+    }
+
+    while((aux !=NULL) && (aux->Dfim.dia > novoNo->Dfim.dia)){
+        aux2 = aux;
+        aux = aux->prox;
+    }
+
+    novoNo->prox = aux;
+    aux2->prox = novoNo;
+
+    return lista;
+}
+
+No* verificaAtraso(){
+    time_t agora;
+    struct tm *data_atual;
+
+    agora = time(NULL);
+    data_atual = localtime(&agora);
+
+    int dia_atual = data_atual->tm_mday;
+    int mes_atual = data_atual->tm_mon + 1; // Adicionar 1 porque janeiro Ã© 0
+    int ano_atual = data_atual->tm_year + 1900; // Adicionar 1900 para obter o ano correto
 
 
 }
+
+No* atualizaEstatus(Fila* f,No* lista){
+    No* atual = (No*)malloc(sizeof(No));
+    atual = RetiraFila(f);
+    atual->status = -1;
+    atual->prox = NULL;
+
+    if(lista == NULL){
+
+        return atual;
+
+    }else{
+
+        No *aux = lista;
+
+        while(aux->prox != NULL){
+
+            aux = aux->prox;
+
+        }
+
+        aux->prox = atual;
+        return lista;
+    }
+}
+
+void imprimeConcluido(No *aux){
+
+    No *q = aux;
+    No *j = aux;
+
+    printf("Concluidas com atrasos: ");
+    if(q!=NULL){
+
+
+        while (q != NULL) {
+           if(q->status == 1){
+            printf("\n\n\tCodigo:%d",q->codigo);
+            printf("\n\tNome da tarefa:%s",q->nome);
+            printf("\n\tNome do projeto:%s",q->proj);
+            printf("\n\tInicio:");
+            imprimeData(q->inicio);
+            printf("\n\tFim:");
+            imprimeData(q->Dfim);
+            printf("\n\tStatus:%d\n\n",q->status);
+            }
+            q = q->prox;
+        }
+    }
+
+    if(j != NULL){
+        while(j != NULL){
+            if(q->status == 1){
+                printf("\n\n\tCodigo:%d",q->codigo);
+                printf("\n\tNome da tarefa:%s",q->nome);
+                printf("\n\tNome do projeto:%s",q->proj);
+                printf("\n\tInicio:");
+                imprimeData(q->inicio);
+                printf("\n\tFim:");
+                imprimeData(q->Dfim);
+                printf("\n\tStatus:%d\n\n",q->status);
+                }
+                j = j->prox;
+        }
+    }else{
+        printf("\nLista Vazia !!!\n");
+    }
+
+
+}
+
 
 #endif // FILA_H_INCLUDED
